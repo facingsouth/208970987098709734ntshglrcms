@@ -12,12 +12,43 @@ class BinarySearchTree
 
     @arr = arr
     @root = Node.new(arr[0], nil, nil, nil)
+    @sorted_arr = []
+    @count = nil
     build_BST
+
   end
 
   def find_node_with_value(val)
-
     dfs(root, val)
+  end
+
+  def sorted_array
+    @count = 0
+    inorder(root)
+    sorted_arr
+  end
+
+  def min
+    node = root
+    while node.left_child
+      node = node.left_child
+    end
+    node.value
+  end
+
+  def max
+    node = root
+    while node.right_child
+      node = node.right_child
+    end
+    node.value
+  end
+
+  def count
+    return @count unless @count.nil?
+    @count = 0
+    inorder(root)
+    @count
   end
 
 
@@ -60,7 +91,19 @@ class BinarySearchTree
     end
   end
 
+  def inorder(node)
+    return if node.nil?
+    inorder(node.left_child) if node.left_child
+    @sorted_arr << node.value
+    @count += 1
+    inorder(node.right_child) if node.right_child
+  end
+
   def arr
     @arr
+  end
+
+  def sorted_arr
+    @sorted_arr
   end
 end
